@@ -1,0 +1,46 @@
+name: executive-reporting-agent
+version: 1.0.0
+description: >
+  Generates C-suite and steering committee reports from live project data.
+  Surfaces RAG status, escalation items, and executive actions.
+
+skills:
+  - id: executive-escalation
+    version: ">=1.0.0"
+    binding: required
+  - id: project-health-assessment
+    version: ">=1.0.0"
+    binding: required
+  - id: weekly-rag-reporting
+    version: ">=1.0.0"
+    binding: required
+  - id: stakeholder-communication
+    version: ">=1.0.0"
+    binding: optional
+
+schemas:
+  input:
+    - ref: schemas/project-health-schema/project-health.schema.json
+    - ref: schemas/rag-report-schema/rag-report.schema.json
+  output:
+    - ref: schemas/executive-dashboard-schema/executive-dashboard.schema.json
+
+data_sources:
+  - type: microsoft_project
+    connector: manifests/custom-connectors/project-online-connector.json
+  - type: azure_devops
+    connector: manifests/custom-connectors/azure-devops-connector.json
+  - type: sharepoint
+    connector: manifests/custom-connectors/sharepoint-connector.json
+
+governance:
+  human_in_the_loop: required_for_escalation
+  audit_logging: enabled
+  data_classification: internal
+  pii_handling: strip_before_prompt
+
+personas:
+  - Executive Sponsor
+  - Programme Director
+  - Steering Committee Member
+  - PMO Director

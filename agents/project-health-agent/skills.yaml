@@ -1,0 +1,37 @@
+name: project-health-agent
+version: 1.0.0
+description: >
+  Monitors project health across eight dimensions. Surfaces risks and
+  provides actionable recommendations to PMs and PMO teams.
+
+skills:
+  - id: project-health-assessment
+    version: ">=1.0.0"
+    binding: required
+  - id: raid-classification
+    version: ">=1.0.0"
+    binding: required
+  - id: dependency-tracking
+    version: ">=1.0.0"
+    binding: required
+  - id: weekly-rag-reporting
+    version: ">=1.0.0"
+    binding: optional
+
+schemas:
+  input:
+    - ref: schemas/project-health-schema/project-health.schema.json
+    - ref: schemas/raid-schema/raid.schema.json
+  output:
+    - ref: schemas/project-health-schema/project-health.schema.json
+
+governance:
+  human_in_the_loop: recommended_for_red_status
+  audit_logging: enabled
+  data_classification: internal
+
+personas:
+  - Project Manager
+  - Programme Manager
+  - Delivery Manager
+  - PMO Analyst

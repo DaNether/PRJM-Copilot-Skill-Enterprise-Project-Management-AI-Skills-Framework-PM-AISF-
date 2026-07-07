@@ -1,0 +1,33 @@
+name: raid-management-agent
+version: 1.0.0
+description: >
+  Manages RAID logs — classifies, scores, and actions Risks, Assumptions,
+  Issues, and Dependencies across enterprise projects.
+
+skills:
+  - id: raid-classification
+    version: ">=1.0.0"
+    binding: required
+  - id: change-control-management
+    version: ">=1.0.0"
+    binding: required
+  - id: dependency-tracking
+    version: ">=1.0.0"
+    binding: required
+
+schemas:
+  input:
+    - ref: schemas/raid-schema/raid.schema.json
+  output:
+    - ref: schemas/raid-schema/raid.schema.json
+
+governance:
+  human_in_the_loop: required_for_closure_and_escalation
+  audit_logging: enabled
+  data_classification: internal
+
+personas:
+  - Project Manager
+  - Delivery Manager
+  - Risk Manager
+  - PMO Analyst

@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://pm-aisf.example.com/schemas/project-health/1.0.0",
+  "title": "Project Health Assessment",
+  "description": "Multi-dimension project health scoring model.",
+  "version": "1.0.0",
+  "type": "object",
+  "required": ["project_name", "assessment_date", "overall_score", "overall_rag", "dimensions"],
+  "properties": {
+    "project_name": { "type": "string" },
+    "assessment_date": { "type": "string", "format": "date" },
+    "prior_assessment_date": { "type": "string", "format": "date" },
+    "overall_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Weighted overall health score (0–100)."
+    },
+    "overall_rag": {
+      "type": "string",
+      "enum": ["Red", "Amber", "Green"],
+      "description": "Derived from overall score: Green ≥70, Amber 50–69, Red <50."
+    },
+    "trend": {
+      "type": "string",
+      "enum": ["Improving", "Stable", "Deteriorating", "Unknown"]
+    },
+    "dimensions": {
+      "type": "object",
+      "properties": {
+        "schedule":      { "$ref": "#/$defs/dimension" },
+        "budget":        { "$ref": "#/$defs/dimension" },
+        "scope":         { "$ref": "#/$defs/dimension" },
+        "risk":          { "$ref": "#/$defs/dimension" },
+        "quality":       { "$ref": "#/$defs/dimension" },
+        "resources":     { "$ref": "#/$defs/dimension" },
+        "stakeholders":  { "$ref": "#/$defs/dimension" },
+        "governance":    { "$ref": "#/$defs/dimension" }
+      }
+    },
+    "top_risks": {
+      "type": "array",
+      "items": { "type": "string" },
+      "maxItems": 5
+    },
+    "recommended_actions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "priority":   { "type": "integer", "minimum": 1, "maximum": 5 },
+          "action":     { "type": "string" },
+          "owner_role": { "type": "string" },
+          "due_by":     { "type": "string", "format": "date" }
+        }
+      },
+      "maxItems": 5
+    },
+    "generated_at": { "type": "string", "format": "date-time" },
+    "ai_content_warning": { "type": "boolean", "const": true }
+  },
+  "$defs": {
+    "dimension": {
+      "type": "object",
+      "properties": {
+        "score":   { "type": "number", "minimum": 0, "maximum": 100 },
+        "rag":     { "type": "string", "enum": ["Red", "Amber", "Green", "Unknown"] },
+        "trend":   { "type": "string", "enum": ["Improving", "Stable", "Deteriorating", "Unknown"] },
+        "finding": { "type": "string" },
+        "weight":  { "type": "number", "minimum": 0, "maximum": 1 }
+      }
+    }
+  }
+}

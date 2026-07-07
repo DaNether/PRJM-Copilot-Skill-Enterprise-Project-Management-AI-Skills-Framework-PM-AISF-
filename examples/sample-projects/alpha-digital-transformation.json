@@ -1,0 +1,26 @@
+{
+  "project_name": "Alpha Digital Transformation",
+  "project_id": "PRJM-2024-001",
+  "programme": "Digital Transformation Programme",
+  "phase": "Execution",
+  "start_date": "2024-01-08",
+  "end_date": "2024-12-13",
+  "sponsor": "Chief Digital Officer",
+  "project_manager": "Jane Smith",
+  "rag_status": "Green",
+  "health_score": 82,
+  "budget": 2500000,
+  "actual_spend": 1100000,
+  "forecast_at_completion": 2480000,
+  "team_size": 12,
+  "milestones": [
+    { "name": "Discovery Complete",     "due": "2024-03-01", "status": "Complete" },
+    { "name": "Solution Design Approved", "due": "2024-05-15", "status": "On Track" },
+    { "name": "UAT Start",              "due": "2024-09-02", "status": "On Track" },
+    { "name": "Go-Live",                "due": "2024-11-25", "status": "On Track" }
+  ],
+  "open_risks": 3,
+  "open_issues": 1,
+  "open_dependencies": 2,
+  "last_updated": "2024-03-15T09:00:00Z"
+}

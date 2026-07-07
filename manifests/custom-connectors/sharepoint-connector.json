@@ -1,0 +1,44 @@
+{
+  "name": "PM-AISF SharePoint Connector",
+  "description": "Read-only connector to SharePoint for project documents and lists.",
+  "version": "1.0.0",
+  "iconBrandColor": "#038387",
+  "swagger": {
+    "swagger": "2.0",
+    "info": {
+      "title": "SharePoint (PM-AISF)",
+      "version": "1.0.0"
+    },
+    "host": "graph.microsoft.com",
+    "basePath": "/v1.0",
+    "schemes": ["https"],
+    "securityDefinitions": {
+      "oauth2_aad": {
+        "type": "oauth2",
+        "flow": "accessCode",
+        "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/v2.0/authorize",
+        "tokenUrl": "https://login.microsoftonline.com/common/oauth2/v2.0/token",
+        "scopes": {
+          "Sites.Read.All": "Read SharePoint sites and lists"
+        }
+      }
+    },
+    "paths": {
+      "/sites/{siteId}/lists/{listId}/items": {
+        "get": {
+          "operationId": "GetListItems",
+          "summary": "Get items from a SharePoint list",
+          "parameters": [
+            { "name": "siteId",  "in": "path", "required": true, "type": "string" },
+            { "name": "listId",  "in": "path", "required": true, "type": "string" },
+            { "name": "$filter", "in": "query", "type": "string" },
+            { "name": "$select", "in": "query", "type": "string" }
+          ],
+          "responses": {
+            "200": { "description": "List items returned" }
+          }
+        }
+      }
+    }
+  }
+}

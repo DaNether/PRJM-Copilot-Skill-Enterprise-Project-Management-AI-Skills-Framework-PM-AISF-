@@ -1,0 +1,27 @@
+{
+  "project_name": "Beta ERP Migration",
+  "project_id": "PRJM-2024-002",
+  "programme": "Finance Transformation",
+  "phase": "Execution",
+  "start_date": "2023-10-02",
+  "end_date": "2024-09-30",
+  "sponsor": "Chief Financial Officer",
+  "project_manager": "Tom Johnson",
+  "rag_status": "Amber",
+  "health_score": 58,
+  "budget": 5000000,
+  "actual_spend": 2900000,
+  "forecast_at_completion": 5400000,
+  "team_size": 25,
+  "milestones": [
+    { "name": "Data Migration Complete", "due": "2024-03-29", "status": "At Risk" },
+    { "name": "UAT Start",              "due": "2024-05-06", "status": "At Risk" },
+    { "name": "Go-Live",                "due": "2024-09-02", "status": "At Risk" }
+  ],
+  "open_risks": 7,
+  "open_issues": 4,
+  "open_dependencies": 5,
+  "schedule_variance_days": 10,
+  "budget_variance_pct": 8.0,
+  "last_updated": "2024-03-15T09:00:00Z"
+}

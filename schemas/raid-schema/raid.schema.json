@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://pm-aisf.example.com/schemas/raid/1.0.0",
+  "title": "RAID Log",
+  "description": "Risks, Assumptions, Issues, and Dependencies log for enterprise projects.",
+  "version": "1.0.0",
+  "type": "object",
+  "required": ["project_name", "items"],
+  "properties": {
+    "project_name": { "type": "string" },
+    "last_updated":  { "type": "string", "format": "date-time" },
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "category", "title", "status"],
+        "properties": {
+          "id":          { "type": "string", "pattern": "^(R|A|I|D)-[0-9]{3}$" },
+          "category":    { "type": "string", "enum": ["Risk", "Assumption", "Issue", "Dependency"] },
+          "title":       { "type": "string", "maxLength": 200 },
+          "description": { "type": "string" },
+          "probability": { "type": "integer", "minimum": 1, "maximum": 3 },
+          "impact":      { "type": "integer", "minimum": 1, "maximum": 3 },
+          "score":       { "type": "integer", "minimum": 1, "maximum": 9 },
+          "severity":    { "type": "string", "enum": ["Critical", "High", "Medium", "Low"] },
+          "status":      { "type": "string", "enum": ["Open", "In Progress", "Closed", "Escalated", "Accepted"] },
+          "owner":       { "type": "string" },
+          "due_date":    { "type": "string", "format": "date" },
+          "response_strategy": {
+            "type": "string",
+            "enum": ["Avoid", "Transfer", "Mitigate", "Accept", "Monitor", "Resolve", "Track"]
+          },
+          "response_plan":  { "type": "string" },
+          "raised_date":    { "type": "string", "format": "date" },
+          "last_reviewed":  { "type": "string", "format": "date" },
+          "review_due":     { "type": "string", "format": "date" },
+          "escalation_required": { "type": "boolean" },
+          "linked_items":   {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "IDs of related RAID items."
+          }
+        },
+        "if": { "properties": { "category": { "const": "Risk" } } },
+        "then": { "required": ["probability", "impact", "score"] }
+      }
+    }
+  }
+}

@@ -1,0 +1,121 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://pm-aisf.example.com/schemas/rag-report/1.0.0",
+  "title": "RAG Report",
+  "description": "Weekly project status report with RAG classification.",
+  "version": "1.0.0",
+  "type": "object",
+  "required": ["project_name", "period", "rag_status", "generated_at"],
+  "properties": {
+    "project_name": {
+      "type": "string",
+      "description": "Name of the project."
+    },
+    "period": {
+      "type": "object",
+      "required": ["start", "end"],
+      "properties": {
+        "start": { "type": "string", "format": "date" },
+        "end":   { "type": "string", "format": "date" }
+      }
+    },
+    "rag_status": {
+      "type": "string",
+      "enum": ["Red", "Amber", "Green"],
+      "description": "Overall project RAG status."
+    },
+    "rag_rationale": {
+      "type": "string",
+      "maxLength": 200,
+      "description": "One-sentence justification for the RAG status."
+    },
+    "key_messages": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1,
+      "maxItems": 5,
+      "description": "Top-level messages for stakeholders."
+    },
+    "schedule": {
+      "type": "object",
+      "properties": {
+        "status":     { "type": "string", "enum": ["Red", "Amber", "Green"] },
+        "spi":        { "type": "number" },
+        "variance_days": { "type": "integer" },
+        "trend":      { "type": "string", "enum": ["Improving", "Stable", "Deteriorating"] },
+        "summary":    { "type": "string" }
+      }
+    },
+    "budget": {
+      "type": "object",
+      "properties": {
+        "status":          { "type": "string", "enum": ["Red", "Amber", "Green"] },
+        "cpi":             { "type": "number" },
+        "variance_pct":    { "type": "number" },
+        "actual_spend":    { "type": "number" },
+        "forecast_to_complete": { "type": "number" },
+        "summary":         { "type": "string" }
+      }
+    },
+    "risks_issues_summary": {
+      "type": "object",
+      "properties": {
+        "open_risks":  { "type": "integer" },
+        "open_issues": { "type": "integer" },
+        "critical":    { "type": "integer" },
+        "top_items":   {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id":          { "type": "string" },
+              "category":    { "type": "string", "enum": ["Risk", "Issue", "Dependency", "Assumption"] },
+              "description": { "type": "string" },
+              "severity":    { "type": "string", "enum": ["Critical", "High", "Medium", "Low"] },
+              "owner":       { "type": "string" },
+              "action":      { "type": "string" }
+            }
+          },
+          "maxItems": 5
+        }
+      }
+    },
+    "decisions_required": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "title":             { "type": "string" },
+          "deadline":          { "type": "string", "format": "date" },
+          "recommended_action": { "type": "string" }
+        }
+      }
+    },
+    "upcoming_milestones": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "milestone":  { "type": "string" },
+          "due_date":   { "type": "string", "format": "date" },
+          "status":     { "type": "string", "enum": ["On Track", "At Risk", "Delayed", "Complete"] }
+        }
+      }
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp when this report was generated."
+    },
+    "generated_by": {
+      "type": "string",
+      "description": "Model or agent that generated this report."
+    },
+    "ai_content_warning": {
+      "type": "boolean",
+      "const": true,
+      "description": "Must always be true to confirm AI content labelling."
+    }
+  },
+  "additionalProperties": false
+}
