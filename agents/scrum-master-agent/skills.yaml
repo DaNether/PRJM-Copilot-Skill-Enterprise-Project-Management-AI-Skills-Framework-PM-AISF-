@@ -1,0 +1,36 @@
+name: scrum-master-agent
+version: 1.0.0
+description: >
+  Facilitates Scrum ceremonies, tracks sprint health, and supports
+  continuous improvement for Agile delivery teams.
+
+skills:
+  - id: sprint-status-review
+    version: ">=1.0.0"
+    binding: required
+  - id: retrospective-analysis
+    version: ">=1.0.0"
+    binding: required
+  - id: lessons-learned-analysis
+    version: ">=1.0.0"
+    binding: required
+  - id: stakeholder-communication
+    version: ">=1.0.0"
+    binding: optional
+
+schemas:
+  input:
+    - ref: schemas/project-health-schema/project-health.schema.json
+  output:
+    - ref: schemas/rag-report-schema/rag-report.schema.json
+
+governance:
+  human_in_the_loop: recommended_for_escalation
+  audit_logging: enabled
+  data_classification: internal
+
+personas:
+  - Scrum Master
+  - Product Owner
+  - Development Team Member
+  - Agile Coach

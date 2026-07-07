@@ -1,0 +1,30 @@
+name: steering-committee-agent
+version: 1.0.0
+description: >
+  Prepares steering committee packs, maintains decision logs, and tracks
+  governance action items.
+
+skills:
+  - id: executive-escalation
+    version: ">=1.0.0"
+    binding: required
+  - id: stakeholder-communication
+    version: ">=1.0.0"
+    binding: required
+
+schemas:
+  input:
+    - ref: schemas/executive-dashboard-schema/executive-dashboard.schema.json
+  output:
+    - ref: schemas/executive-dashboard-schema/executive-dashboard.schema.json
+
+governance:
+  human_in_the_loop: required_for_all_decisions
+  audit_logging: enabled
+  data_classification: confidential
+
+personas:
+  - Programme Director
+  - Executive Sponsor
+  - Steering Committee Chair
+  - PMO Director

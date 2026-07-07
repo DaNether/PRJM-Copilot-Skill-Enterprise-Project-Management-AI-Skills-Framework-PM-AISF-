@@ -1,0 +1,133 @@
+openapi: "3.0.3"
+info:
+  title: PM-AISF Project Management Skills API
+  description: >
+    Enterprise Project Management AI Skills Framework — OpenAPI manifest
+    for Microsoft Copilot Studio plugin actions.
+  version: "1.0.0"
+  contact:
+    name: PM-AISF Center of Excellence
+  license:
+    name: MIT
+
+servers:
+  - url: https://api.pm-aisf.example.com/v1
+    description: Production
+
+security:
+  - oauth2:
+    - read:projects
+    - read:raids
+
+components:
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://login.microsoftonline.com/{tenant}/oauth2/v2.0/authorize
+          tokenUrl: https://login.microsoftonline.com/{tenant}/oauth2/v2.0/token
+          scopes:
+            read:projects: Read project data
+            read:raids: Read RAID log data
+            write:reports: Create and update reports
+
+  schemas:
+    RagStatus:
+      type: string
+      enum: [Red, Amber, Green]
+
+    ProjectSummary:
+      type: object
+      properties:
+        project_name: { type: string }
+        rag_status:   { $ref: '#/components/schemas/RagStatus' }
+        health_score: { type: number }
+        period_end:   { type: string, format: date }
+
+paths:
+  /projects/{projectId}/rag-report:
+    get:
+      operationId: getProjectRagReport
+      summary: Get the latest RAG status report for a project
+      description: Returns the most recent weekly RAG report including schedule, budget, risks, and milestones.
+      tags: [Reporting]
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          schema: { type: string }
+        - name: period
+          in: query
+          schema: { type: string, format: date }
+          description: Reporting period end date (ISO 8601). Defaults to most recent.
+      responses:
+        "200":
+          description: RAG report retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '../../schemas/rag-report-schema/rag-report.schema.json'
+        "404":
+          description: Project not found
+
+  /projects/{projectId}/health:
+    get:
+      operationId: getProjectHealth
+      summary: Get project health assessment
+      description: Returns a multi-dimension health score and RAG status across eight project dimensions.
+      tags: [Health]
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        "200":
+          description: Health assessment retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '../../schemas/project-health-schema/project-health.schema.json'
+
+  /projects/{projectId}/raid:
+    get:
+      operationId: getProjectRaid
+      summary: Get the RAID log for a project
+      tags: [RAID]
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          schema: { type: string }
+        - name: category
+          in: query
+          schema: { type: string, enum: [Risk, Assumption, Issue, Dependency] }
+        - name: status
+          in: query
+          schema: { type: string, enum: [Open, "In Progress", Closed, Escalated] }
+      responses:
+        "200":
+          description: RAID log retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '../../schemas/raid-schema/raid.schema.json'
+
+  /portfolio/dashboard:
+    get:
+      operationId: getPortfolioDashboard
+      summary: Get portfolio executive dashboard
+      description: Returns a portfolio-level executive view across all active projects.
+      tags: [Executive]
+      parameters:
+        - name: period_end
+          in: query
+          schema: { type: string, format: date }
+      responses:
+        "200":
+          description: Executive dashboard retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '../../schemas/executive-dashboard-schema/executive-dashboard.schema.json'

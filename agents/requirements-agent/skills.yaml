@@ -1,0 +1,30 @@
+name: requirements-agent
+version: 1.0.0
+description: >
+  Maintains requirements traceability matrices and change impact assessments
+  for enterprise project delivery.
+
+skills:
+  - id: requirements-traceability-matrix
+    version: ">=1.0.0"
+    binding: required
+  - id: change-control-management
+    version: ">=1.0.0"
+    binding: required
+
+schemas:
+  input:
+    - ref: schemas/project-health-schema/project-health.schema.json
+  output:
+    - ref: schemas/project-health-schema/project-health.schema.json
+
+governance:
+  human_in_the_loop: required_for_baseline_changes
+  audit_logging: enabled
+  data_classification: internal
+
+personas:
+  - Business Analyst
+  - Product Owner
+  - Project Manager
+  - Test Manager

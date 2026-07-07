@@ -1,0 +1,68 @@
+{
+  "name": "PM-AISF Azure DevOps Connector",
+  "description": "Read-only connector to Azure DevOps for sprint, work item, and pipeline data.",
+  "version": "1.0.0",
+  "iconBrandColor": "#0078d4",
+  "swagger": {
+    "swagger": "2.0",
+    "info": {
+      "title": "Azure DevOps (PM-AISF)",
+      "version": "1.0.0"
+    },
+    "host": "dev.azure.com",
+    "basePath": "/{organization}",
+    "schemes": ["https"],
+    "securityDefinitions": {
+      "oauth2_aad": {
+        "type": "oauth2",
+        "flow": "accessCode",
+        "authorizationUrl": "https://app.vssps.visualstudio.com/oauth2/authorize",
+        "tokenUrl": "https://app.vssps.visualstudio.com/oauth2/token",
+        "scopes": {
+          "vso.work": "Read work items and sprints"
+        }
+      }
+    },
+    "paths": {
+      "/{project}/_apis/wit/workitems": {
+        "get": {
+          "operationId": "GetWorkItems",
+          "summary": "Get work items by query",
+          "parameters": [
+            { "name": "organization", "in": "path", "required": true, "type": "string" },
+            { "name": "project",      "in": "path", "required": true, "type": "string" },
+            { "name": "ids",          "in": "query", "type": "string" },
+            { "name": "api-version",  "in": "query", "required": true, "type": "string", "default": "7.1" }
+          ],
+          "responses": {
+            "200": { "description": "Work items returned" }
+          }
+        }
+      },
+      "/{project}/_apis/work/teamsettings/iterations": {
+        "get": {
+          "operationId": "GetIterations",
+          "summary": "Get sprint iterations",
+          "parameters": [
+            { "name": "organization", "in": "path", "required": true, "type": "string" },
+            { "name": "project",      "in": "path", "required": true, "type": "string" },
+            { "name": "api-version",  "in": "query", "required": true, "type": "string", "default": "7.1" }
+          ],
+          "responses": {
+            "200": { "description": "Iterations returned" }
+          }
+        }
+      }
+    }
+  },
+  "policyTemplateInstances": [
+    {
+      "templateId": "setheader",
+      "parameters": {
+        "x-ms-api-annotation.status": "Preview",
+        "name": "User-Agent",
+        "value": "PM-AISF/1.0"
+      }
+    }
+  ]
+}

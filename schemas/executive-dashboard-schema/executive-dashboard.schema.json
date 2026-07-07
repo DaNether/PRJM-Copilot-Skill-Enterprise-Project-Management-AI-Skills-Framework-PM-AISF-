@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://pm-aisf.example.com/schemas/executive-dashboard/1.0.0",
+  "title": "Executive Dashboard",
+  "description": "Portfolio-level executive view across multiple projects.",
+  "version": "1.0.0",
+  "type": "object",
+  "required": ["organisation", "period", "projects", "generated_at"],
+  "properties": {
+    "organisation": { "type": "string" },
+    "period": {
+      "type": "object",
+      "required": ["start", "end"],
+      "properties": {
+        "start": { "type": "string", "format": "date" },
+        "end":   { "type": "string", "format": "date" }
+      }
+    },
+    "portfolio_summary": {
+      "type": "object",
+      "properties": {
+        "total_projects": { "type": "integer" },
+        "green_count":    { "type": "integer" },
+        "amber_count":    { "type": "integer" },
+        "red_count":      { "type": "integer" },
+        "total_budget":   { "type": "number" },
+        "total_actual":   { "type": "number" },
+        "budget_variance_pct": { "type": "number" }
+      }
+    },
+    "projects": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "rag_status"],
+        "properties": {
+          "name":               { "type": "string" },
+          "programme":          { "type": "string" },
+          "rag_status":         { "type": "string", "enum": ["Red", "Amber", "Green"] },
+          "rag_trend":          { "type": "string", "enum": ["Improving", "Stable", "Deteriorating"] },
+          "health_score":       { "type": "number" },
+          "phase":              { "type": "string" },
+          "budget":             { "type": "number" },
+          "actual_spend":       { "type": "number" },
+          "forecast_at_completion": { "type": "number" },
+          "sponsor":            { "type": "string" },
+          "pm":                 { "type": "string" },
+          "key_risk":           { "type": "string" },
+          "key_milestone":      { "type": "string" },
+          "milestone_due":      { "type": "string", "format": "date" },
+          "milestone_status":   { "type": "string", "enum": ["On Track", "At Risk", "Delayed", "Complete"] },
+          "decisions_required": { "type": "integer" }
+        }
+      }
+    },
+    "executive_actions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "priority":    { "type": "integer" },
+          "action":      { "type": "string" },
+          "project":     { "type": "string" },
+          "deadline":    { "type": "string", "format": "date" },
+          "owner":       { "type": "string" }
+        }
+      },
+      "maxItems": 5
+    },
+    "generated_at": { "type": "string", "format": "date-time" },
+    "ai_content_warning": { "type": "boolean", "const": true }
+  }
+}
